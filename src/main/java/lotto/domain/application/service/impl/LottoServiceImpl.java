@@ -32,7 +32,7 @@ public class LottoServiceImpl implements LottoService {
         if (numbers == null) {
             throw ExceptionFactory.nullPointer(ErrorCode.NULL_LOTTO_NUMBERS);
         }
-        Collections.sort(numbers);
+        Collections.sort(new ArrayList<>(numbers));
         return new Lotto(numbers);
     }
 
