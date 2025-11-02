@@ -17,21 +17,10 @@ public class ApplicationFactory {
         return new ApplicationRunner(lottoController);
     }
 
-    /**
-     * 컨트롤러 생성
-     *
-     * @param lottoService 서비스 구현체
-     * @return 구성된 LottoController 객체
-     */
     private static LottoController createLottoController(LottoService lottoService) {
         return new LottoController(lottoService);
     }
 
-    /**
-     * 서비스 구현체 생성
-     *
-     * @return 구성된 LottoService 객체
-     */
     private static LottoService createLottoService() {
         return new LottoServiceImpl();
     }

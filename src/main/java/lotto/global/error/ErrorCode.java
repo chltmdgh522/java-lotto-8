@@ -1,8 +1,5 @@
 package lotto.global.error;
 
-/**
- * 로또 애플리케이션에서 발생할 수 있는 모든 에러 코드
- */
 public enum ErrorCode {
     // 기존 에러 코드
     INVALID_PURCHASE_AMOUNT("로또 구입 금액은 1,000원 단위여야 합니다."),

@@ -1,7 +1,6 @@
 package lotto.domain.entity.statistics;
 
 public enum StatisticsType {
-
     MATCH_3(3, false, 5_000),
     MATCH_4(4, false, 50_000),
     MATCH_5(5, false, 1_500_000),
@@ -30,9 +29,6 @@ public enum StatisticsType {
         return prize;
     }
 
-    /**
-     * 일치 개수와 보너스 여부를 기반으로 적절한 당첨 등수를 반환한다.
-     */
     public static StatisticsType of(int matchCount, boolean bonusMatch) {
         if (matchCount == 6) return MATCH_6;
         if (matchCount == 5 && bonusMatch) return MATCH_5_BONUS;
