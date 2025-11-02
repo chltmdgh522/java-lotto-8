@@ -1,6 +1,6 @@
 package lotto.global.error;
 
-public class LottoException extends RuntimeException {
+public class LottoException extends IllegalArgumentException {
     private final ErrorCode errorCode;
 
     public LottoException(ErrorCode errorCode) {

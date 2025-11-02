@@ -6,7 +6,11 @@ import lotto.domain.entity.lotto.Lotto;
 import lotto.domain.entity.statistics.WinningStatistics;
 import lotto.domain.presentation.view.InputView;
 import lotto.domain.presentation.view.OutputView;
-import lotto.global.error.LottoException;
+import lotto.global.error.exception.LottoIllegalArgumentException;
+import lotto.global.error.exception.LottoIllegalStateException;
+import lotto.global.error.exception.LottoIndexOutOfBoundsException;
+import lotto.global.error.exception.LottoNullPointerException;
+import lotto.global.error.exception.LottoNumberFormatException;
 
 public class LottoController {
     private final LottoService lottoService;
@@ -27,7 +31,7 @@ public class LottoController {
 
         // 당첨 번호 및 보너스 번호 입력
         Lotto winningLotto = createWinningLotto();
-        int bonusNumber = getBonusNumber(createWinningLotto().getNumbers());
+        int bonusNumber = getBonusNumber(winningLotto.getNumbers());
 
         // 당첨 결과 계산 및 출력
         processWinningResult(purchaseAmount, purchasedLottos, winningLotto, bonusNumber);
@@ -38,7 +42,7 @@ public class LottoController {
         while (true) {
             try {
                 return InputView.readPurchaseAmount();
-            } catch (LottoException e) {
+            } catch (LottoIllegalArgumentException | LottoNumberFormatException e) {
                 OutputView.printError(e.getMessage());
             }
         }
@@ -46,13 +50,22 @@ public class LottoController {
 
     // 구매한 로또 생성
     private List<Lotto> createPurchasedLottos(int lottoCount) {
-        return lottoService.purchasedLottoTicket(lottoCount);
+        try {
+            return lottoService.purchasedLottoTicket(lottoCount);
+        } catch (LottoNullPointerException | LottoIllegalArgumentException e) {
+            OutputView.printError(e.getMessage());
+            return createPurchasedLottos(lottoCount); // 재시도
+        }
     }
 
     // 구매한 로또 출력
     private void printPurchasedLottos(int lottoCount, List<Lotto> purchasedLottos) {
-        OutputView.printPurchasedLottoCount(lottoCount);
-        OutputView.printPurchasedLottos(purchasedLottos);
+        try {
+            OutputView.printPurchasedLottoCount(lottoCount);
+            OutputView.printPurchasedLottos(purchasedLottos);
+        } catch (LottoNullPointerException e) {
+            OutputView.printError(e.getMessage());
+        }
     }
 
     // 당첨 로또 생성
@@ -61,7 +74,8 @@ public class LottoController {
             try {
                 List<Integer> winningNumbers = InputView.readWinningNumbers();
                 return new Lotto(winningNumbers);
-            } catch (LottoException e) {
+            } catch (LottoIllegalArgumentException | LottoNullPointerException |
+                     LottoNumberFormatException e) {
                 OutputView.printError(e.getMessage());
             }
         }
@@ -72,7 +86,8 @@ public class LottoController {
         while (true) {
             try {
                 return InputView.readBonusNumber(winningNumbers);
-            } catch (LottoException e) {
+            } catch (LottoIllegalArgumentException | LottoNullPointerException |
+                     LottoNumberFormatException e) {
                 OutputView.printError(e.getMessage());
             }
         }
@@ -81,14 +96,20 @@ public class LottoController {
     // 당첨 결과 처리
     private void processWinningResult(int purchaseAmount, List<Lotto> purchasedLottos,
                                       Lotto winningLotto, int bonusNumber) {
-        // 당첨 통계 계산
-        List<WinningStatistics> winningStatistics =
-                lottoService.compareLottoTicket(purchasedLottos, winningLotto, bonusNumber);
+        try {
+            // 당첨 통계 계산
+            List<WinningStatistics> winningStatistics =
+                    lottoService.compareLottoTicket(purchasedLottos, winningLotto, bonusNumber);
 
-        // 당첨 통계 출력
-        OutputView.printWinningStatistics(winningStatistics);
+            // 당첨 통계 출력
+            OutputView.printWinningStatistics(winningStatistics);
 
-        // 수익률 계산 및 출력
-        OutputView.printProfitRate(lottoService.calculateProfitRate(purchaseAmount, winningStatistics));
+            // 수익률 계산 및 출력
+            float profitRate = lottoService.calculateProfitRate(purchaseAmount, winningStatistics);
+            OutputView.printProfitRate(profitRate);
+        } catch (LottoIllegalArgumentException | LottoNullPointerException |
+                 LottoIllegalStateException | LottoIndexOutOfBoundsException e) {
+            OutputView.printError(e.getMessage());
+        }
     }
 }

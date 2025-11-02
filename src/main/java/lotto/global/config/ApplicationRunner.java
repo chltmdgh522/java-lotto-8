@@ -2,7 +2,11 @@ package lotto.global.config;
 
 import lotto.domain.presentation.controller.LottoController;
 import lotto.domain.presentation.view.OutputView;
-import lotto.global.error.LottoException;
+import lotto.global.error.exception.LottoIllegalArgumentException;
+import lotto.global.error.exception.LottoIllegalStateException;
+import lotto.global.error.exception.LottoIndexOutOfBoundsException;
+import lotto.global.error.exception.LottoNullPointerException;
+import lotto.global.error.exception.LottoNumberFormatException;
 
 /**
  * 애플리케이션의 실행과 예외 처리를 담당하는 클래스
@@ -23,13 +27,19 @@ public class ApplicationRunner {
 
     /**
      * 애플리케이션 실행
-     * 예상치 못한 예외만 여기서 처리 (예상된 LottoException은 컨트롤러에서 이미 처리됨)
+     * 예외 처리를 중앙에서 관리하여 애플리케이션의 안정성 확보
      */
     public void run() {
         try {
             lottoController.lottoRun();
-        } catch (LottoException e) {
+        } catch (LottoIllegalArgumentException | LottoNullPointerException |
+                 LottoNumberFormatException | LottoIllegalStateException |
+                 LottoIndexOutOfBoundsException e) {
+            // 로또 관련 예외는 메시지 출력
             OutputView.printError(e.getMessage());
+        } catch (Exception e) {
+            // 예상치 못한 예외 처리
+            OutputView.printError("예상치 못한 오류가 발생했습니다: " + e.getMessage());
         }
     }
 
