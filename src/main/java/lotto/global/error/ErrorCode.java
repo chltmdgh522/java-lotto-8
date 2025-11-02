@@ -1,11 +1,15 @@
 package lotto.global.error;
 
 public enum ErrorCode {
-    INVALID_CAR_NAME_LENGTH("자동차 이름은 1자 이상 5자 이하만 가능합니다."),
-    DUPLICATE_CAR_NAME("중복된 자동차 이름이 존재합니다."),
-    EMPTY_CAR_NAME_INPUT("자동차 이름 입력이 비어 있거나 잘못된 구분자입니다."),
-    INVALID_ATTEMPT_COUNT("시도 횟수는 1회 이상이어야 합니다."),
-    INVALID_ATTEMPT_COUNT_FORMAT("시도 횟수는 숫자로 입력해야 합니다.");
+    INVALID_PURCHASE_AMOUNT("로또 구입 금액은 1,000원 단위여야 합니다."),
+    INVALID_PURCHASE_AMOUNT_FORMAT("로또 구입 금액은 숫자여야 합니다."),
+    INVALID_WINNING_NUMBERS_COUNT("당첨 번호는 6개여야 합니다."),
+    INVALID_WINNING_NUMBERS_RANGE("로또 번호는 1부터 45 사이의 숫자여야 합니다."),
+    INVALID_WINNING_NUMBERS_DUPLICATE("당첨 번호에 중복된 숫자가 있습니다."),
+    INVALID_WINNING_NUMBERS_FORMAT("당첨 번호는 쉼표(,)로 구분된 숫자여야 합니다."),
+    INVALID_BONUS_NUMBER_RANGE("보너스 번호는 1부터 45 사이의 숫자여야 합니다."),
+    INVALID_BONUS_NUMBER_FORMAT("보너스 번호는 숫자여야 합니다."),
+    INVALID_BONUS_NUMBER_DUPLICATE("보너스 번호는 당첨 번호와 중복될 수 없습니다.");
 
     private final String message;
 

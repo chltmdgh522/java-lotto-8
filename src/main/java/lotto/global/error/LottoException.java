@@ -1,6 +1,6 @@
 package lotto.global.error;
 
-public class LottoException extends Exception {
+public class LottoException extends RuntimeException {
     private final ErrorCode errorCode;
 
     public LottoException(ErrorCode errorCode) {
@@ -8,4 +8,7 @@ public class LottoException extends Exception {
         this.errorCode = errorCode;
     }
 
+    public ErrorCode getErrorCode() {
+        return errorCode;
+    }
 }
