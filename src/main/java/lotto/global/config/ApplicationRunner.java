@@ -21,7 +21,9 @@ public class ApplicationRunner {
     public void run() {
         try {
             lottoController.lottoRun();
-        } catch (RuntimeException e) {
+        } catch (LottoIllegalArgumentException | LottoNullPointerException |
+                 LottoNumberFormatException | LottoIllegalStateException |
+                 LottoIndexOutOfBoundsException e) {
             OutputView.printError(e.getMessage());
         } catch (Exception e) {
             OutputView.printError("예상치 못한 오류가 발생했습니다: " + e.getMessage());

@@ -50,7 +50,7 @@ public class LottoController {
                 int amount = LottoInputParser.parsePurchaseAmount(input);
                 LottoValidator.validatePurchaseAmount(amount);
                 return amount;
-            } catch (RuntimeException e) {
+            } catch (IllegalArgumentException e) {
                 OutputView.printError(e.getMessage());
             }
         }
@@ -63,7 +63,7 @@ public class LottoController {
                 List<Integer> numbers = LottoInputParser.parseWinningNumbers(input);
                 LottoValidator.validateWinningNumbers(numbers);
                 return new Lotto(numbers);
-            } catch (RuntimeException e) {
+            } catch (IllegalArgumentException e) {
                 OutputView.printError(e.getMessage());
             }
         }
@@ -76,7 +76,7 @@ public class LottoController {
                 int bonus = LottoInputParser.parseBonusNumber(input);
                 LottoValidator.validateBonusNumber(bonus, winningLotto.getNumbers());
                 return bonus;
-            } catch (RuntimeException e) {
+            } catch (IllegalArgumentException e) {
                 OutputView.printError(e.getMessage());
             }
         }
