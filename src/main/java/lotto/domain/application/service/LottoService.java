@@ -10,7 +10,7 @@ public interface LottoService {
 
 
     // 구입 로또 배분 후 저장
-    List<Lotto> purchasedLottoTicket(Lotto winningLotto, int bonusNumber, int count);
+    List<Lotto> purchasedLottoTicket(int count);
 
     // 담청 일치 계산
     List<WinningStatistics> compareLottoTicket(List<Lotto> purchasedLottos, Lotto winningLotto,

@@ -27,7 +27,7 @@ public class LottoController {
 
         // 당첨 번호 및 보너스 번호 입력
         Lotto winningLotto = createWinningLotto();
-        int bonusNumber = getBonusNumber(winningLotto.getNumbers());
+        int bonusNumber = getBonusNumber(createWinningLotto().getNumbers());
 
         // 당첨 결과 계산 및 출력
         processWinningResult(purchaseAmount, purchasedLottos, winningLotto, bonusNumber);
@@ -46,10 +46,7 @@ public class LottoController {
 
     // 구매한 로또 생성
     private List<Lotto> createPurchasedLottos(int lottoCount) {
-        // 임시로 빈 로또와 보너스 번호 0을 전달 (나중에 실제 값으로 대체)
-        List<Integer> dummyNumbers = List.of(1, 2, 3, 4, 5, 6);
-        Lotto dummyLotto = new Lotto(dummyNumbers);
-        return lottoService.purchasedLottoTicket(dummyLotto, 0, lottoCount);
+        return lottoService.purchasedLottoTicket(lottoCount);
     }
 
     // 구매한 로또 출력
@@ -92,7 +89,6 @@ public class LottoController {
         OutputView.printWinningStatistics(winningStatistics);
 
         // 수익률 계산 및 출력
-        float profitRate = lottoService.calculateProfitRate(purchaseAmount, winningStatistics);
-        OutputView.printProfitRate(profitRate);
+        OutputView.printProfitRate(lottoService.calculateProfitRate(purchaseAmount, winningStatistics));
     }
 }

@@ -18,7 +18,7 @@ public class LottoServiceImpl implements LottoService {
 
     // 구입 로또 저장
     @Override
-    public List<Lotto> purchasedLottoTicket(Lotto winningLotto, int bonusNumber, int count) {
+    public List<Lotto> purchasedLottoTicket(int count) {
         List<Lotto> result = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             List<Integer> purchasedNumbers = Randoms.pickUniqueNumbersInRange(1, 45, 6);
